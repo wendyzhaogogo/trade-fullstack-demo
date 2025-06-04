@@ -1,0 +1,51 @@
+# Dependencies
+node_modules
+.pnpm-store/
+
+# Build outputs
+dist
+build
+*.tsbuildinfo
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# IDE
+.idea
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Testing
+coverage
+.nyc_output
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.swp
+*.swo
+*~
+
+# NestJS
+/apps/server/dist
+/apps/server/node_modules
+
+# Vite
+/apps/web/dist
+/apps/web/node_modules
+/apps/web/.vite 
