@@ -1,180 +1,73 @@
-# Trade System Server
+# Trade Server
 
-A modern trading system backend built with NestJS and GraphQL, featuring user management, trading statistics, and a referral system.
+这是交易系统的后端服务，使用 Node.js 和 GraphQL 构建。
 
-## Overview
+## 技术栈
 
-This server application is part of a full-stack trading system demo. It provides a GraphQL API for managing users, tracking trading activities, and handling referral relationships with commission calculations.
+使用gql+nestjs搭建的server
 
-## Tech Stack
-
-- **Framework**: NestJS
-- **API**: GraphQL with Apollo Server
-- **Language**: TypeScript
-- **Package Manager**: pnpm
-
-## Core Features
-
-### User Management
-- User registration and profile management
-- User querying and filtering
-- Referral relationship tracking
-
-### Trading Statistics
-- Trading volume tracking
-- Fee calculations
-- Commission management for referrals
-
-### Referral System
-- User referral tracking
-- Commission calculation based on referral activities
-
-## Project Structure
-
-The project follows a modular architecture with clear separation of concerns:
-
-### Modules
-
-- **AppModule**: Root module that bootstraps the application
-  - GraphQL configuration
-  - Module orchestration
-  - Basic app setup
-
-- **UsersModule**: Core user functionality
-  - User queries and management
-  - Referral system integration
-  - Dependencies: MockModule, UserStatsModule
-
-- **UserStatsModule**: Trading statistics
-  - Trading volume tracking
-  - Commission calculations
-  - Dependencies: MockModule
-
-- **MockModule**: Development data
-  - Mock data services
-  - Development and testing support
-
-### Directory Structure
+## 项目结构
 
 ```
-src/
-├── modules/           # Feature modules
-│   ├── users.module.ts
-│   ├── user-stats.module.ts
-│   └── mock.module.ts
-├── resolvers/         # GraphQL resolvers
-│   ├── users.resolver.ts
-│   └── user-stats.resolver.ts
-├── services/         # Business logic
-│   ├── users.service.ts
-│   ├── user-stats.service.ts
-│   └── mock.service.ts
-├── models/           # GraphQL models
-│   ├── user.model.ts
-│   └── user-stats.model.ts
-├── mock/            # Mock data
-│   └── data.ts
-└── app.module.ts    # Root module
+server/
+├── src/
+│   ├── config/         # 配置文件
+│   ├── graphql/        # GraphQL schema 和 resolvers
+│   ├── models/         # 数据模型
+│   ├── services/       # 业务逻辑
+│   ├── utils/          # 工具函数
+│   └── index.ts        # 入口文件
+├── prisma/            # Prisma schema 和迁移
+├── tests/             # 测试文件
+└── package.json
 ```
 
-## API Documentation
+## 开发设置
 
-### GraphQL Queries
-
-#### Users
-```graphql
-# Get all users
-query {
-  users {
-    id
-    username
-  }
-}
-
-# Get specific user
-query {
-  user(id: "user_id") {
-    id
-    username
-  }
-}
-
-# Get user referrals
-query {
-  referrals(userId: "user_id") {
-    id
-    username
-  }
-}
-```
-
-#### User Statistics
-```graphql
-# Get user stats
-query {
-  user(id: "user_id") {
-    stats {
-      totalTradingVolume
-      totalFees
-      totalCommission
-    }
-  }
-}
-```
-
-## Getting Started
-
-### Prerequisites
-- Node.js (v16 or later)
-- pnpm
-
-### Installation
+1. 安装依赖：
 
 ```bash
-# Install dependencies
-$ pnpm install
-
-# Start development server
-$ pnpm run start:dev
-
-# Build for production
-$ pnpm run build
-
-# Start production server
-$ pnpm run start:prod
+pnpm install
 ```
 
-### Development
+
+2. 启动开发服务器：
 
 ```bash
-# Start in development mode with hot reload
-$ pnpm run start:dev
-
-# Run tests
-$ pnpm run test
-
-# Run e2e tests
-$ pnpm run test:e2e
-
-# Generate test coverage
-$ pnpm run test:cov
+pnpm dev
 ```
 
-## Testing
+## API 文档
 
-The project includes comprehensive testing setup:
-- Unit tests for services and resolvers
-- E2E tests for API endpoints
-- Test coverage reporting
+### GraphQL 端点
 
-## Contributing
+- 开发环境: http://localhost:4000/graphql
+- 生产环境: https://api.example.com/graphql
 
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+### 主要查询
 
-## License
+```graphql
+# 获取用户统计信息
+query GetUserStats($userId: String!) {
+  userStats(userId: $userId) {
+    totalTradingVolume
+    totalFees
+    totalCommission
+  }
+}
+```
 
-This project is licensed under the MIT License. 
+
+## 部署
+
+1. 构建项目：
+
+```bash
+pnpm build
+```
+
+2. 运行生产服务器：
+
+```bash
+pnpm start
+```

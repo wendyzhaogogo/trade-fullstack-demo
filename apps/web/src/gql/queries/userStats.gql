@@ -1,0 +1,7 @@
+query GetUserStats($userId: String!) {
+  userStats(userId: $userId) {
+    totalCommission
+    totalFees
+    totalTradingVolume
+  }
+}

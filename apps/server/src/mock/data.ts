@@ -25,6 +25,14 @@ export const users: TableUser[] = [
     id: '2',
     username: 'user2',
   },
+  {
+    id: '3',
+    username: 'user3',
+  },
+  {
+    id: '4',
+    username: 'user4',
+  },
 ];
 
 export const trades: TableTrade[] = [

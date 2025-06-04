@@ -1,80 +1,55 @@
-# Trade Commission System
+# Trade Fullstack Demo
 
-A full-stack application for managing and tracking trading commissions and referrals.
+这是一个全栈交易系统演示项目，包含前端 Web 应用和后端服务。
 
-## Project Structure
-
-This is a monorepo project using pnpm workspaces with two main applications:
-
-- `apps/web`: Frontend React application (Vite + TypeScript + Tailwind CSS)
-- `apps/server`: Backend Express server (TypeScript)
-
-## Features
-
-- User authentication (mock)
-- Trading data visualization
-- Referral system with one-level commission structure
-- Real-time statistics for:
-  - Total trading volume
-  - Total fees
-  - Number of referrals
-  - Total commission earnings
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v18 or higher)
-- pnpm (v8 or higher)
-
-### Installation
-
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   pnpm install
-   ```
-
-### Development
-
-To run both frontend and backend in development mode:
-
-1. Start the backend server:
-   ```bash
-   pnpm dev:server
-   ```
-
-2. Start the frontend development server:
-   ```bash
-   pnpm dev:web
-   ```
-
-The frontend will be available at `http://localhost:5173`
-The backend API will be available at `http://localhost:3000`
-
-## Project Structure
+## 项目结构
 
 ```
 trade-fullstack-demo/
 ├── apps/
-│   ├── web/           # Frontend React application
-│   └── server/        # Backend Express server
-├── package.json
-└── pnpm-workspace.yaml
+│   ├── web/          # React 前端应用
+│   └── server/       # Node.js 后端服务
+└── packages/         # 共享包
 ```
 
-## Technology Stack
+## 技术栈
 
-### Frontend
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
-- React Router
-- Axios
+- 前端：React + TypeScript + Tailwind CSS + Redux Toolkit + Apollo Client
+- 后端：Node.js + TypeScript + Express + GraphQL + Prisma
 
-### Backend
-- Node.js
-- Express
-- TypeScript
-- CORS 
+## 开发环境要求
+
+- Node.js 18+
+- pnpm 8+
+
+## 快速开始
+
+1. 安装依赖：
+
+```bash
+pnpm install
+```
+
+2. 配置环境变量：
+
+复制 `.env.example` 文件到 `.env` 并填写必要的配置：
+
+```bash
+cp .env.example .env
+```
+
+3. 启动开发服务器：
+
+```bash
+# 启动所有服务
+pnpm dev
+
+# 或者分别启动
+pnpm dev:web     # 启动前端
+pnpm dev:server  # 启动后端
+```
+
+4. 访问应用：
+
+- 前端：http://localhost:5173
+- 后端 GraphQL：http://localhost:4000/graphql

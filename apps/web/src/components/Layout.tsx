@@ -1,0 +1,84 @@
+import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from '../store/hooks';
+import { clearToken } from '../store/slices/authSlice';
+import { Button } from '@mui/material';
+import { Logout as LogoutIcon } from '@mui/icons-material';
+
+export const Layout = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const token = useAppSelector((state) => state.auth.token);
+
+  const handleLogout = () => {
+    dispatch(clearToken());
+    navigate('/');
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      {/* Navigation */}
+      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center">
+              <Link to="/" className="flex items-center space-x-2">
+                <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  Trade Demo
+                </span>
+              </Link>
+            </div>
+            {token ? (
+              <div className="flex items-center space-x-4">
+                <Link
+                  to="/stats"
+                  className="px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition-colors duration-200"
+                >
+                  User Stats
+                </Link>
+                <Button
+                  onClick={handleLogout}
+                  startIcon={<LogoutIcon />}
+                  variant="outlined"
+                  size="small"
+                  sx={{
+                    borderRadius: 2,
+                    textTransform: 'none',
+                  }}
+                >
+                  Logout
+                </Button>
+              </div>
+            ):null}
+          </div>
+        </div>
+      </nav>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <Outlet />
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-white border-t border-gray-200 mt-auto">
+        <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="text-gray-500 text-sm">
+              © 2024 Trade Demo. All rights reserved.
+            </div>
+            <div className="flex space-x-6 mt-4 md:mt-0">
+              <a href="#" className="text-gray-400 hover:text-gray-500">
+                Terms
+              </a>
+              <a href="#" className="text-gray-400 hover:text-gray-500">
+                Privacy
+              </a>
+              <a href="#" className="text-gray-400 hover:text-gray-500">
+                Contact
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}; 
