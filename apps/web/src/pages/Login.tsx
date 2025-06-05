@@ -2,66 +2,84 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../store/hooks';
 import { setToken } from '../store/slices/authSlice';
+import { useLoginMutation } from '../gql';
 
-export const Login = () => {
+export function Login() {
   const [userId, setUserId] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const [login, { loading }] = useLoginMutation({
+    onCompleted: (data) => {
+      dispatch(setToken(data.login.access_token));
+      navigate('/stats');
+    },
+    onError: (error) => {
+      setError(error.message);
+    },
+  });
+
+  const handleLogin = async () => {
+    setError('');
     if (!userId.trim()) {
-      setError('Please enter a user ID');
+      setError('请输入用户ID');
       return;
     }
-
-    // 模拟登录成功
-    dispatch(setToken(userId));
-    navigate('/stats');
+    await login({ variables: { userId } });
   };
 
   return (
-    <div className="min-h-screen flex items-center bg-gray-50">
-      <div className="max-w-xl w-full mx-auto px-4">
-        <div className="bg-white p-8 rounded-lg shadow-sm">
-          <h1 className="text-3xl font-bold text-center mb-8 text-blue-600">
-            Welcome Back
-          </h1>
-
-          <div className="mb-6 text-center text-gray-600">
-            <p>Demo user IDs: 1, 2</p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-xl w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            登录系统
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            请输入用户ID（示例：1 或 2）
+          </p>
+        </div>
+        <div className="mt-8 space-y-6">
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div>
+              <label htmlFor="userId" className="sr-only">
+                用户ID
+              </label>
+              <input
+                id="userId"
+                name="userId"
+                type="text"
+                required
+                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="用户ID"
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                  }
+                }}
+              />
+            </div>
           </div>
 
-          <form onSubmit={handleSubmit}>
-            <div className="mb-6">
-              <input
-                type="text"
-                value={userId}
-                onChange={(e) => {
-                  setUserId(e.target.value);
-                  setError(null);
-                }}
-                placeholder="Enter your user ID"
-                className={`w-full px-4 py-3 rounded-lg border ${
-                  error ? 'border-red-500' : 'border-gray-300'
-                } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
-              />
-              {error && (
-                <p className="mt-2 text-sm text-red-600">{error}</p>
-              )}
-            </div>
+          {error && (
+            <div className="text-red-500 text-sm text-center">{error}</div>
+          )}
 
+          <div>
             <button
-              type="submit"
-              className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              type="button"
+              onClick={handleLogin}
+              disabled={loading}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
             >
-              Login
+              {loading ? '登录中...' : '登录'}
             </button>
-          </form>
+          </div>
         </div>
       </div>
     </div>
   );
-}; 
+} 

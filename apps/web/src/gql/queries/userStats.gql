@@ -1,5 +1,5 @@
-query GetUserStats($userId: String!) {
-  userStats(userId: $userId) {
+query GetUserStats {
+  userStats {
     totalCommission
     totalFees
     totalTradingVolume

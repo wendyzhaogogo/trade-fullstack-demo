@@ -1,12 +1,7 @@
-import { useAppSelector } from '../store/hooks';
 import { useGetUserStatsQuery } from '../gql';
 
 export const UserStats = () => {
-  const userId:string = useAppSelector((state) => state.auth.token) as string;
-  const { data, loading, error } = useGetUserStatsQuery({
-    variables: { userId },
-    skip: !userId,
-  });
+  const { data, loading, error } = useGetUserStatsQuery();
 
   return (
     <div className="min-h-[calc(100vh-200px)] py-6">
